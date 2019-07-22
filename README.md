@@ -4,6 +4,8 @@ A useful left scroll actions widget like WeChat.
 
 一款仿微信效果的 Flutter 左滑菜单插件。
 
+![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_03.gif?raw=true)
+
 ## Install
 
 Add this to your package's pubspec.yaml file:
@@ -47,7 +49,9 @@ dependencies:
 
 See:
 
+![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_01.png?raw=true)
 
+![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_02.png?raw=true)
 
 ## Getting Started
 

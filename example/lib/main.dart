@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
               child: Text('These widget can scroll to actions.'),
             ),
             LeftScroll(
+              buttonWidth: 80,
               child: Container(
                 height: 60,
                 color: Colors.white,
@@ -49,12 +50,21 @@ class _HomePageState extends State<HomePage> {
                 LeftScrollItem(
                   text: 'delete',
                   color: Colors.red,
+                  onTap: () {
+                    print('delete');
+                  },
                 ),
                 LeftScrollItem(
                   text: 'Edit',
                   color: Colors.orange,
+                  onTap: () {
+                    print('edit');
+                  },
                 ),
               ],
+              onTap: () {
+                print('tap row');
+              },
             ),
             LeftScroll(
               child: Container(

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 class LeftScroll extends StatefulWidget {
-  final GlobalKey<LeftScrollState> key;
+  final Key key;
 
+  final bool closeOnPop;
   final Widget child;
   final VoidCallback onTap;
   final double buttonWidth;
@@ -27,6 +28,7 @@ class LeftScroll extends StatefulWidget {
     this.onTap,
     this.buttonWidth: 80.0,
     this.onScroll,
+    this.closeOnPop: true,
   }) : super(key: key);
 
   @override
@@ -79,44 +81,47 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: widget.buttons
-                  .map<Widget>((button) => Container(
-                        child: button,
-                        width: widget.buttonWidth,
-                      ))
-                  .toList()
-                  .reversed
-                  .toList(),
-            )),
-            RawGestureDetector(
-              gestures: gestures,
-              child: Transform.translate(
-                offset: Offset(translateX, 0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: widget.child,
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-        onWillPop: () async {
-          if (translateX != 0) {
-            close();
-            return false;
-          }
-          return true;
-        });
+    Widget body = Stack(
+      children: <Widget>[
+        Positioned.fill(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: widget.buttons
+              .map<Widget>((button) => Container(
+                    child: button,
+                    width: widget.buttonWidth,
+                  ))
+              .toList()
+              .reversed
+              .toList(),
+        )),
+        RawGestureDetector(
+          gestures: gestures,
+          child: Transform.translate(
+            offset: Offset(translateX, 0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: widget.child,
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+    return widget.closeOnPop
+        ? WillPopScope(
+            child: body,
+            onWillPop: () async {
+              if (translateX != 0) {
+                close();
+                return false;
+              }
+              return true;
+            })
+        : body;
   }
 
   void onHorizontalDragDown(DragDownDetails details) {
@@ -172,12 +177,14 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 class LeftScrollItem extends StatelessWidget {
   final Function onTap;
   final String text;
+  final Color textColor;
   final Color color;
   const LeftScrollItem({
     Key key,
     this.onTap,
     this.text,
     this.color,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -188,10 +195,12 @@ class LeftScrollItem extends StatelessWidget {
         alignment: Alignment.center,
         // width: 80,
         color: color,
-        child: Text(text,
-            style: TextStyle(
-              color: Colors.white,
-            )),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor ?? Colors.white,
+          ),
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 name: left_scroll_actions
 description: A simple use left-scroll-actions widget like WeChat.Slide to left and you can see buttons.
-version: 1.0.1
+version: 1.1.0
 author: Ma Jialun <675531696@qq.com>
 homepage: https://github.com/mjl0602/left-scroll-actions
 
@@ -15,6 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+# flutter packages pub publish --server=https://pub.dartlang.org 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 

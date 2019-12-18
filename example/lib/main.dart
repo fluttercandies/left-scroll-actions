@@ -1,5 +1,6 @@
 import 'package:example/list.dart';
 import 'package:example/row.dart';
+import 'package:example/scrollList.dart';
 import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/left_scroll_actions.dart';
 
@@ -45,6 +46,21 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ListPage(),
+                  ));
+                },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(12),
+              child: MaterialButton(
+                color: Colors.blue,
+                child: Text(
+                  'ClosableListView Usage Demo',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ClosableListPage(),
                   ));
                 },
               ),

@@ -23,6 +23,8 @@ dependencies:
 
 ## Usage
 
+
+### 普通使用
 ```dart
   LeftScroll(
     buttonWidth: 80,
@@ -45,6 +47,42 @@ dependencies:
       print('tap row');
     },
   );
+```
+
+### 左滑列表（1.2.0新增）：，如果你打开一行，其他行会自动关闭
+
+```dart
+LeftScrollList.builder(
+  count: list.length,
+  builder: (ctx, index) => LeftScrollListItem(
+      key: list[index],
+      child: Container(
+        height: 60,
+        padding: EdgeInsets.only(left: 20),
+        color: Colors.white,
+        alignment: Alignment.centerLeft,
+        child: Text('(${list[index]})Scroll Left To Delete'),
+      ),
+      buttons: [
+        LeftScrollItem(
+          text: 'delete',
+          color: Colors.red,
+          onTap: () {
+            print('delete');
+            if (list.contains(list[index])) {
+              list.remove(list[index]);
+              setState(() {});
+            }
+          },
+        ),
+      ],
+      onTap: () {
+        print('tap row');
+        list.add((Random().nextDouble() * 10000000 ~/ 1).toString());
+        setState(() {});
+      },
+  );
+);
 ```
 
 See:

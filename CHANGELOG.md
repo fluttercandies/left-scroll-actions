@@ -1,4 +1,8 @@
 
+## [1.2.0] - Add LeftScrollList.
+
+Add LeftScrollList,if you open a row in LeftScrollList, other row will auto close.
+
 ## [1.1.0] - Fix bug, Improve demo.
 
 Add paramater to control pop event.

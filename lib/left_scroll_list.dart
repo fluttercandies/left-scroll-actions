@@ -86,7 +86,7 @@ class _LeftScrollListState extends State<LeftScrollList> {
         var item = widget.builder?.call(ctx, index);
         return ClosableLeftScroll(
           isClose: _markMap[item.key] ?? true,
-          closeOnPop: widget.closeOnPop,
+          closeOnPop: widget.closeOnPop ?? true,
           key: Key(item.key), // Note:Important,Must add key;
           onTouch: () {
             var currentkey = item.key;

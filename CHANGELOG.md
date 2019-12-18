@@ -1,4 +1,7 @@
 
+## [1.2.1] - Fix bug.
+
+Fix demo bug.
 ## [1.2.0] - Add LeftScrollList.
 
 Add LeftScrollList,if you open a row in LeftScrollList, other row will auto close.

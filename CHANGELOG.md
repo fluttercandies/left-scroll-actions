@@ -1,4 +1,13 @@
 
+## 1.3.0 Add LeftScrollCloseTag,deprecated old list
+
+1. If you add same `LeftScrollCloseTag` tag to LeftScroll widget, widget will autoclose when other widget with same tag open;
+2. If you want close target row,just use such code:
+```dart
+// 找到对应tag与key的row状态，改变状态即可
+LeftScrollGlobalListener.instance.targetStatus(tag,key) = false;
+```
+
 ## [1.2.1] - Fix bug.
 
 Fix demo bug.

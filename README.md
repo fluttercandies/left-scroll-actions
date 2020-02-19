@@ -49,9 +49,20 @@ dependencies:
   );
 ```
 
-### 左滑列表（1.2.0新增）：，如果你打开一行，其他行会自动关闭
+### 左滑联动列表（1.3.0）
+
+1. 对于提供同一个`LeftScrollCloseTag`的LeftScroll组件，可以在一个打开时，关闭其他组件
+2. 想要关闭特定的行，只需使用以下代码
+```dart
+// 找到对应tag与key的row状态，改变状态即可
+LeftScrollGlobalListener.instance.targetStatus(tag,key) = false;
+```
+
+
+### 左滑列表（1.2.0新增）（已过期）
 
 ```dart
+/// 已过期
 LeftScrollList.builder(
   count: list.length,
   builder: (ctx, index) => LeftScrollListItem(

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// 左滑列表的描述对象（不是widget）
+@deprecated
 class LeftScrollListItem {
   final String key;
   final Widget child;
@@ -16,6 +17,7 @@ class LeftScrollListItem {
 }
 
 /// 左滑列表，只有一个可以打开
+@deprecated
 class LeftScrollList extends StatefulWidget {
   final int count;
   final LeftScrollListItem Function(BuildContext, int) builder;
@@ -63,6 +65,7 @@ class LeftScrollList extends StatefulWidget {
   _LeftScrollListState createState() => _LeftScrollListState();
 }
 
+@deprecated
 class _LeftScrollListState extends State<LeftScrollList> {
   Map<String, bool> _markMap = {};
   @override
@@ -119,6 +122,7 @@ class _LeftScrollListState extends State<LeftScrollList> {
   }
 }
 
+@deprecated
 class ClosableLeftScroll extends StatefulWidget {
   final Key key;
 
@@ -162,6 +166,7 @@ class ClosableLeftScroll extends StatefulWidget {
   }
 }
 
+@deprecated
 class ClosableLeftScrollState extends State<ClosableLeftScroll>
     with TickerProviderStateMixin {
   double translateX = 0;

@@ -93,7 +93,6 @@ class _ExampleRowState extends State<ExampleRow> {
         print(a);
       },
       onSlideStarted: () {
-        // opa = 0;
         setState(() {});
       },
       onSlideCompleted: () {

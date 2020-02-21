@@ -1,4 +1,8 @@
 
+## 1.4.2 Fix bug, update readme
+
+1. Fix bug.
+
 ## 1.4.0 Add CupertinoLeftScroll  
 
 1. Add `CupertinoLeftScroll` widget,buttons will expand with iOS style.  

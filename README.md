@@ -4,7 +4,7 @@ A useful left scroll actions widget like WeChat.
 
 一款仿微信效果的 Flutter 左滑菜单插件。
 
-![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_03.gif?raw=true)
+![preview](demo.gif)
 
 ## Install
 
@@ -15,7 +15,7 @@ Add this to your package's pubspec.yaml file:
 dependencies:
   flutter:
     sdk: flutter
-  // 添加下面这一行
+  // 添加下面这一行。 Add this row.
   left_scroll_actions: any
 ```
 
@@ -24,9 +24,15 @@ dependencies:
 ## Usage
 
 
-### 普通使用
+### CupertinoLeftScroll
+
 ```dart
-  LeftScroll(
+  CupertinoLeftScroll(
+    // important, each Row must have different key.
+    key: Key('TODO: your key'),
+    // left scroll widget will auto close while the other widget is opened and has same closeTag.
+    // 当另一个有相同closeTag的组件打开时，其他有着相同closeTag的组件会自动关闭.
+    closeTag: LeftScrollCloseTag('TODO: your tag'),
     buttonWidth: 80,
     child: Container(
       height: 60,
@@ -35,6 +41,13 @@ dependencies:
       child: Text('👈 Try Scroll Left'),
     ),
     buttons: <Widget>[
+      LeftScrollItem(
+        text: 'edit',
+        color: Colors.orange,
+        onTap: () {
+          print('edit');
+        },
+      ),
       LeftScrollItem(
         text: 'delete',
         color: Colors.red,
@@ -49,6 +62,11 @@ dependencies:
   );
 ```
 
+### LeftScroll
+
+You can use this widget as same as CupertinoLeftScroll.
+Custom define you slide animation by implements `onScroll` function.
+
 ### 左滑联动列表（1.3.0）
 
 1. 对于提供同一个`LeftScrollCloseTag`的LeftScroll组件，可以在一个打开时，关闭其他组件
@@ -58,49 +76,18 @@ dependencies:
 LeftScrollGlobalListener.instance.targetStatus(tag,key) = false;
 ```
 
-
 ### 左滑列表（1.2.0新增）（已过期）
-
 ```dart
 /// 已过期
 LeftScrollList.builder(
-  count: list.length,
-  builder: (ctx, index) => LeftScrollListItem(
-      key: list[index],
-      child: Container(
-        height: 60,
-        padding: EdgeInsets.only(left: 20),
-        color: Colors.white,
-        alignment: Alignment.centerLeft,
-        child: Text('(${list[index]})Scroll Left To Delete'),
-      ),
-      buttons: [
-        LeftScrollItem(
-          text: 'delete',
-          color: Colors.red,
-          onTap: () {
-            print('delete');
-            if (list.contains(list[index])) {
-              list.remove(list[index]);
-              setState(() {});
-            }
-          },
-        ),
-      ],
-      onTap: () {
-        print('tap row');
-        list.add((Random().nextDouble() * 10000000 ~/ 1).toString());
-        setState(() {});
-      },
-  );
+  /// Deprecated! Do not use this widget anymore.
+  /// Instead, you can add [LeftScrollCloseTag] property to [LeftScroll] or [CupertinoLeftScroll] widget.
 );
 ```
 
 See:
 
-![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_01.png?raw=true)
 
-![Example](https://github.com/mjl0602/left-scroll-actions/blob/master/example/flutter_02.png?raw=true)
 
 ## Getting Started
 

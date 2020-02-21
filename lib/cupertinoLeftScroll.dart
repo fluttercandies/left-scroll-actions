@@ -32,8 +32,8 @@ class CupertinoLeftScroll extends StatefulWidget {
 class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
     with TickerProviderStateMixin {
   double translateX = 0;
-  double get maxDragDistance => widget.buttonWidth * widget.buttons.length;
 
+  double get maxDragDistance => widget.buttonWidth * widget.buttons.length;
   double get progress => translateX / maxDragDistance * -1;
 
   final Map<Type, GestureRecognizerFactory> gestures =

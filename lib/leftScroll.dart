@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/global/actionListener.dart';
 
+// 原始的组件
 class LeftScroll extends StatefulWidget {
   final Key key;
 
@@ -44,7 +45,15 @@ class LeftScroll extends StatefulWidget {
 }
 
 class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
-  double translateX = 0;
+  double _translateX = 0;
+
+  double get translateX => _translateX;
+
+  set translateX(double translateX) {
+    widget.onScroll.call(translateX / maxDragDistance * -1);
+    _translateX = translateX;
+  }
+
   double maxDragDistance;
   final Map<Type, GestureRecognizerFactory> gestures =
       <Type, GestureRecognizerFactory>{};
@@ -168,11 +177,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 
   void onHorizontalDragUpdate(DragUpdateDetails details) {
     translateX = (translateX + details.delta.dx).clamp(-maxDragDistance, 0.0);
-    if (widget.onScroll != null) {
-      widget.onScroll.call(
-        translateX / maxDragDistance * -1,
-      );
-    }
+
     setState(() {});
   }
 

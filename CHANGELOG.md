@@ -1,4 +1,8 @@
 
+## 1.4.3 Fix bug
+
+1. Fix use `LeftScrollGlobalListener.instance.targetStatus(tag, key)=true;` fail at first time.
+
 ## 1.4.2 Fix bug, update readme
 
 1. Fix bug.
@@ -6,7 +10,7 @@
 ## 1.4.0 Add CupertinoLeftScroll  
 
 1. Add `CupertinoLeftScroll` widget,buttons will expand with iOS style.  
-2. To fetch this style, just simple replace `LeftScroll` to `CupertinoLeftScroll`.  
+2. To fetch this style, just simple replace `LeftScroll` with `CupertinoLeftScroll`.  
 3. Update example, remove deprecated demo.  
 
 ## 1.3.0 Add LeftScrollCloseTag,deprecated old list  

@@ -1,4 +1,8 @@
 
+## 1.4.4 Fix bug
+
+1. Fix `LeftScroll` can't open without `onScroll` argument.
+
 ## 1.4.3 Fix bug
 
 1. Fix use `LeftScrollGlobalListener.instance.targetStatus(tag, key)=true;` fail at first time.

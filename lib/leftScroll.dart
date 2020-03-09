@@ -50,7 +50,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
   double get translateX => _translateX;
 
   set translateX(double translateX) {
-    widget.onScroll.call(translateX / maxDragDistance * -1);
+    widget.onScroll?.call(translateX / maxDragDistance * -1);
     _translateX = translateX;
   }
 

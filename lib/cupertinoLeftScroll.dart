@@ -88,6 +88,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
     );
 
     animationController = AnimationController(
+        value: 0,
         lowerBound: -maxDragDistance,
         upperBound: 0,
         vsync: this,

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/cupertinoLeftScroll.dart';
 import 'package:left_scroll_actions/left_scroll_actions.dart';
 
+import 'dev_row/row.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -122,8 +124,8 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 12, left: 8, bottom: 8),
               child: Text('CupertinoLeftScrollRow'),
             ),
-            CupertinoLeftScroll(
-              buttonWidth: 80,
+            BounceCupertinoLeftScroll(
+              buttonWidth: 60,
               child: Container(
                 height: 60,
                 color: Colors.white,
@@ -132,7 +134,36 @@ class _HomePageState extends State<HomePage> {
               ),
               buttons: <Widget>[
                 LeftScrollItem(
-                  text: 'delete',
+                  text: 'Delete',
+                  color: Colors.red,
+                  onTap: () {
+                    print('delete');
+                  },
+                ),
+                LeftScrollItem(
+                  text: 'Edit',
+                  color: Colors.orange,
+                  onTap: () {
+                    print('edit');
+                  },
+                ),
+              ],
+              onTap: () {
+                print('tap row');
+              },
+            ),
+            BounceCupertinoLeftScroll(
+              buttonWidth: 60,
+              bounce: true,
+              child: Container(
+                height: 60,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Text('👈 Try Scroll Left(iOS style with bounce)'),
+              ),
+              buttons: <Widget>[
+                LeftScrollItem(
+                  text: 'Delete',
                   color: Colors.red,
                   onTap: () {
                     print('delete');

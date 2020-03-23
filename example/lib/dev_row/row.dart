@@ -243,14 +243,14 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
       v = v.clamp(-300.0, 0.0);
       await animationController.animateTo(
         -maxDragDistance + v,
-        duration: Duration(milliseconds: 1000),
-        curve: Curves.easeInOutCubic,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn,
       );
       setState(() {});
     }
     animationController.animateTo(
       -maxDragDistance,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 300),
     );
     if (widget.closeTag == null) return;
     if (_ct.value == false) {

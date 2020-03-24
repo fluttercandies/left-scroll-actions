@@ -1,11 +1,9 @@
 import 'package:example/list.dart';
 import 'package:example/row.dart';
-import 'package:example/scrollList.dart';
 import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/cupertinoLeftScroll.dart';
 import 'package:left_scroll_actions/left_scroll_actions.dart';
 
-import 'dev_row/row.dart';
 
 void main() => runApp(MyApp());
 
@@ -124,7 +122,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 12, left: 8, bottom: 8),
               child: Text('CupertinoLeftScrollRow'),
             ),
-            BounceCupertinoLeftScroll(
+            CupertinoLeftScroll(
               buttonWidth: 60,
               child: Container(
                 height: 60,
@@ -152,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 print('tap row');
               },
             ),
-            BounceCupertinoLeftScroll(
+            CupertinoLeftScroll(
               buttonWidth: 60,
               bounce: true,
               child: Container(

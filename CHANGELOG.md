@@ -1,4 +1,9 @@
 
+## 1.5.0 Add Bounce Style
+
+1. Add `bounce` argument to class CupertinoLeftScroll to enable bounce style.
+2. Use `bounceStyle` argument to control bounce style.
+
 ## 1.4.4 Fix bug
 
 1. Fix `LeftScroll` can't open without `onScroll` argument.

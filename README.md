@@ -24,11 +24,12 @@ dependencies:
 ## Usage
 
 
-### CupertinoLeftScroll
+### CupertinoLeftScroll (1.4.0)
 
 ```dart
   CupertinoLeftScroll(
     // important, each Row must have different key.
+    // DO NOT use '$index' as Key! Use id or title.
     key: Key('TODO: your key'),
     // left scroll widget will auto close while the other widget is opened and has same closeTag.
     // 当另一个有相同closeTag的组件打开时，其他有着相同closeTag的组件会自动关闭.
@@ -64,8 +65,13 @@ dependencies:
 
 ### LeftScroll
 
-You can use this widget as same as CupertinoLeftScroll.
+You can use this widget as same as `CupertinoLeftScroll`.
 Custom define you slide animation by implements `onScroll` function.
+
+### 弹性 (1.5.0）
+
+1. 设置`CupertinoLeftScroll`的`bounce`参数为`true`，即可获得弹性效果
+2. 通过`CupertinoLeftScroll`的`bounceStyle`参数控制弹性效果
 
 ### 左滑联动列表（1.3.0）
 

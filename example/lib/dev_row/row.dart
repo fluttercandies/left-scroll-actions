@@ -2,30 +2,34 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:left_scroll_actions/global/actionListener.dart';
 
 /// 弹性配置
 class BounceStyle {
-  final double distance;
+  final double maxDistance;
   final double k;
+  final Duration duration;
 
   BounceStyle({
-    this.distance,
+    this.duration: const Duration(milliseconds: 200),
+    this.maxDistance,
     this.k,
   });
   BounceStyle.normal()
       : this(
-          distance: 80,
-          k: 0.7,
+          maxDistance: 120,
+          k: 0.4,
         );
   BounceStyle.disable()
       : this(
-          distance: 0,
+          maxDistance: 0,
           k: double.infinity,
         );
 }
 
-class BounceCupertinoLeftScroll extends StatefulWidget {
+/// 用于开发的组件
+class CupertinoLeftScroll extends StatefulWidget {
   final Key key;
   final Widget child;
   final LeftScrollCloseTag closeTag;
@@ -41,7 +45,7 @@ class BounceCupertinoLeftScroll extends StatefulWidget {
   BounceStyle get _bounceStyle =>
       bounceStyle ?? (bounce ? BounceStyle.normal() : BounceStyle.disable());
 
-  BounceCupertinoLeftScroll({
+  CupertinoLeftScroll({
     this.key,
     @required this.child,
     @required this.buttons,
@@ -56,18 +60,18 @@ class BounceCupertinoLeftScroll extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return BounceCupertinoLeftScrollState();
+    return CupertinoLeftScrollState();
   }
 }
 
-class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
+class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
     with TickerProviderStateMixin {
   /// 手指滑动的坐标值
   double translateX = 0;
 
   /// 弹性处理后的坐标变化
   double get bounceTranslate {
-    if (widget._bounceStyle.distance == 0) {
+    if (widget._bounceStyle.maxDistance == 0) {
       return translateX.clamp(-maxDragDistance, 0.0);
     }
     var resultTranslate = translateX;
@@ -79,7 +83,7 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
     return min(
         0,
         resultTranslate.clamp(
-            -maxDragDistance - widget._bounceStyle.distance, 0.0));
+            -maxDragDistance - widget._bounceStyle.maxDistance, 0.0));
   }
 
   /// 最远滑动距离
@@ -141,7 +145,7 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
 
     animationController = AnimationController(
         value: 0,
-        lowerBound: -maxDragDistance - widget._bounceStyle.distance,
+        lowerBound: -maxDragDistance - widget._bounceStyle.maxDistance,
         upperBound: 0,
         vsync: this,
         duration: Duration(milliseconds: 300))
@@ -152,7 +156,7 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
   }
 
   @override
-  void didUpdateWidget(BounceCupertinoLeftScroll oldWidget) {
+  void didUpdateWidget(CupertinoLeftScroll oldWidget) {
     if (oldWidget.buttons.length != widget.buttons.length) {
       translateX = 0;
     }
@@ -170,11 +174,11 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
             children: <Widget>[
               Container(
                 width: widget.buttonWidth * widget.buttons.length +
-                    widget._bounceStyle.distance,
+                    widget._bounceStyle.maxDistance,
                 child: _WxStyleButtonGroup(
                   opaChange: widget.opacityChange,
                   buttonWidth: widget.buttonWidth,
-                  bounceDistance: widget._bounceStyle.distance,
+                  bounceDistance: widget._bounceStyle.maxDistance,
                   progress: progress,
                   children: widget.buttons ?? [],
                 ),
@@ -225,7 +229,6 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
     if (details.velocity.pixelsPerSecond.dx > 200) {
       close();
     } else if (details.velocity.pixelsPerSecond.dx < -200) {
-      // TODO: 弹出动画
       open(details.velocity.pixelsPerSecond.dx);
     } else {
       if (bounceTranslate.abs() > maxDragDistance / 2) {
@@ -240,17 +243,23 @@ class BounceCupertinoLeftScrollState extends State<BounceCupertinoLeftScroll>
   void open([double v = 0]) async {
     print('open');
     if (v < 0) {
-      v = v.clamp(-300.0, 0.0);
-      await animationController.animateTo(
-        -maxDragDistance + v,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.fastOutSlowIn,
-      );
-      setState(() {});
+      // //TODO: 弹簧动画
+      // var phy = BouncingScrollSimulation(
+      //   velocity: v,
+      //   leadingExtent: 0,
+      //   position: translateX,
+      //   spring: SpringDescription.withDampingRatio(
+      //     mass: 1,
+      //     stiffness: 1,
+      //   ),
+      //   trailingExtent: null,
+      // );
+      // phy.dx(time)
+      // v = v.clamp(-300.0, 0.0);
     }
     animationController.animateTo(
       -maxDragDistance,
-      duration: Duration(milliseconds: 300),
+      duration: widget._bounceStyle.duration,
     );
     if (widget.closeTag == null) return;
     if (_ct.value == false) {
@@ -283,7 +292,7 @@ class _WxStyleButtonGroup extends StatelessWidget {
   final bool opaChange;
   final double buttonWidth;
 
-  /// 允许拉伸的最大范围
+  /// ��许拉伸的最大范围
   final double bounceDistance;
 
   /// 拉伸进度

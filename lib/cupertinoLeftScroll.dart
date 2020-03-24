@@ -12,18 +12,14 @@ class BounceStyle {
 
   BounceStyle({
     this.duration: const Duration(milliseconds: 200),
-    this.maxDistance,
-    this.k,
+    this.maxDistance: 120,
+    this.k: 0.4,
   });
-  BounceStyle.normal()
-      : this(
-          maxDistance: 120,
-          k: 0.4,
-        );
+
   BounceStyle.disable()
       : this(
           maxDistance: 0,
-          k: double.infinity,
+          k: 1,
         );
 }
 
@@ -41,7 +37,7 @@ class CupertinoLeftScroll extends StatefulWidget {
   final BounceStyle bounceStyle;
 
   BounceStyle get _bounceStyle =>
-      bounceStyle ?? (bounce ? BounceStyle.normal() : BounceStyle.disable());
+      bounceStyle ?? (bounce ? BounceStyle() : BounceStyle.disable());
 
   CupertinoLeftScroll({
     this.key,
@@ -343,7 +339,7 @@ class _WxStyleButtonGroup extends StatelessWidget {
 
       if (opaChange == true) {
         btn = Opacity(
-          opacity: progress,
+          opacity: progress.clamp(0.0, 1.0),
           child: btn,
         );
       }

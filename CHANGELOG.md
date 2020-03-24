@@ -1,4 +1,9 @@
 
+## 1.5.1 Add Bounce Style
+
+1. Fix bug of throw error when use opacity and bounce same time.
+2. Fix BounceStyle builder function.
+
 ## 1.5.0 Add Bounce Style
 
 1. Add `bounce` argument to class CupertinoLeftScroll to enable bounce style.

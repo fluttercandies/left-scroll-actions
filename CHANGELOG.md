@@ -1,4 +1,8 @@
 
+## 1.5.2 Add Bounce Style
+
+1. Fix other row close timing.Now other row will close when you start open target row.
+
 ## 1.5.1 Add Bounce Style
 
 1. Fix bug of throw error when use opacity and bounce same time.

@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:example/manager.dart';
 import 'package:flutter/material.dart';
+import 'package:left_scroll_actions/cupertinoLeftScroll.dart';
+import 'package:left_scroll_actions/left_scroll_actions.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _ListPageState extends State<ListPage> {
       body: ListView(
         children: list
             .map<Widget>(
-              (id) => LeftScroll(
+              (id) => CupertinoLeftScroll(
                 closeOnPop: false,
                 key: Key(id), // Note:Important,Must add key;
                 buttonWidth: 80,

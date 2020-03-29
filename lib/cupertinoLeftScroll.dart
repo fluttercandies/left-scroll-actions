@@ -123,7 +123,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       () => HorizontalDragGestureRecognizer(debugOwner: this),
       (HorizontalDragGestureRecognizer instance) {
         instance
-          ..onDown = onHorizontalDragDown
+          ..onStart = onHorizontalDragStart
           ..onUpdate = onHorizontalDragUpdate
           ..onEnd = onHorizontalDragEnd;
       },
@@ -209,7 +209,13 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
         : body;
   }
 
-  void onHorizontalDragDown(DragDownDetails details) {}
+  void onHorizontalDragStart(DragStartDetails details) {
+    if (widget.closeTag == null) return;
+    if (_ct.value == false) {
+      LeftScrollGlobalListener.instance
+          .needCloseOtherRowOfTag(widget.closeTag, widget.key);
+    }
+  }
 
   void onHorizontalDragUpdate(DragUpdateDetails details) {
     translateX += details.delta.dx;
@@ -256,11 +262,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       duration: widget._bounceStyle.duration,
     );
     if (widget.closeTag == null) return;
-    if (_ct.value == false) {
-      LeftScrollGlobalListener.instance
-          .needCloseOtherRowOfTag(widget.closeTag, widget.key);
-      _ct.value = true;
-    }
+    _ct.value = true;
   }
 
   // 关闭

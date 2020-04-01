@@ -13,14 +13,11 @@ class BounceStyle {
   BounceStyle({
     this.duration: const Duration(milliseconds: 200),
     this.maxDistance: 120,
-    this.k: 0.4,
+    this.k: 0.8,
   });
 
-  BounceStyle.disable()
-      : this(
-          maxDistance: 0,
-          k: 1,
-        );
+  /// k为1意味着阻止任何回弹
+  BounceStyle.disable() : this(k: 1);
 }
 
 class CupertinoLeftScroll extends StatefulWidget {

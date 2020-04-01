@@ -1,4 +1,9 @@
 
+## 1.5.3 Improve bounce style.
+
+1. Change default k to 0.8.
+2. Avaliable hot reload when adding bounce style.
+  
 ## 1.5.2 Add Bounce Style
 
 1. Fix other row close timing.Now other row will close when you start open target row.

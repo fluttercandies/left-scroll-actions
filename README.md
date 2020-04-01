@@ -2,7 +2,10 @@
 
 A useful left scroll actions widget like WeChat.
 
-一款仿微信效果的 Flutter 左滑菜单插件。
+一款仿微信效果的 Flutter 左滑菜单插件。现在支持iOS的展开与弹性效果。  
+
+很轻松的打开关闭指定组件。
+或者在同一个列表内通过tag实现联动关闭（打开一个关闭其他）。   
 
 ![preview](demo.gif)
 

@@ -82,7 +82,7 @@ Custom define you slide animation by implements `onScroll` function.
 2. 想要关闭特定的行，只需使用以下代码
 ```dart
 // 找到对应tag与key的row状态，改变状态即可
-LeftScrollGlobalListener.instance.targetStatus(tag,key) = false;
+LeftScrollGlobalListener.instance.targetStatus(tag,key).value = false;
 ```
 
 ### 左滑列表（1.2.0新增）（已过期）

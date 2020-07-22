@@ -226,20 +226,20 @@ class ClosableLeftScrollState extends State<ClosableLeftScroll>
 
   @override
   Widget build(BuildContext context) {
+    var children = widget.buttons
+        .map<Widget>((button) => Container(
+              child: button,
+              width: widget.buttonWidth,
+            ))
+        .toList();
     Widget body = Stack(
       children: <Widget>[
         Positioned.fill(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: widget.buttons
-              .map<Widget>((button) => Container(
-                    child: button,
-                    width: widget.buttonWidth,
-                  ))
-              .toList()
-              .reversed
-              .toList(),
-        )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: children.reversed.toList(),
+          ),
+        ),
         RawGestureDetector(
           gestures: gestures,
           child: Transform.translate(

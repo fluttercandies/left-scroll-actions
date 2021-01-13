@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/global/actionListener.dart';
 
+typedef OpenChangedCallback = void Function(bool isOpen);
 /// 弹性配置
 class BounceStyle {
   final double maxDistance;
@@ -27,6 +28,7 @@ class CupertinoLeftScroll extends StatefulWidget {
   final bool closeOnPop;
   final bool opacityChange;
   final VoidCallback onTap;
+  final OpenChangedCallback onOpenChanged;
   final double buttonWidth;
   final List<Widget> buttons;
 
@@ -44,6 +46,7 @@ class CupertinoLeftScroll extends StatefulWidget {
     this.onTap,
     this.buttonWidth: 80.0,
     this.closeOnPop: true,
+    this.onOpenChanged,
     this.opacityChange,
     this.bounce: false,
     this.bounceStyle,
@@ -238,7 +241,9 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   // 打开
   void open([double v = 0]) async {
-    print('open');
+    if(widget.onOpenChanged !=null){
+      widget.onOpenChanged(true);
+    }
     if (v < 0) {
       // //TODO: 弹簧动画
       // var phy = BouncingScrollSimulation(
@@ -264,6 +269,9 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   // 关闭
   void close() {
+    if(widget.onOpenChanged !=null){
+      widget.onOpenChanged(false);
+    }
     if (translateX != 0) {
       animationController.animateTo(0);
     }

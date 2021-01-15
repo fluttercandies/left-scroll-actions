@@ -349,7 +349,13 @@ class _WxStyleButtonGroup extends StatelessWidget {
           opacity: progress.clamp(0.0, 1.0),
           child: btn,
         );
+      } else {
+        btn = Opacity(
+          opacity: progress > 0 ? 1 : 0,
+          child: btn,
+        );
       }
+
       l.add(btn);
     }
     return OverflowBox(

@@ -4,30 +4,30 @@ import 'package:left_scroll_actions/global/actionListener.dart';
 
 // 原始的组件
 class LeftScroll extends StatefulWidget {
-  final Key key;
+  final Key? key;
 
-  final LeftScrollCloseTag closeTag;
+  final LeftScrollCloseTag? closeTag;
 
   final bool closeOnPop;
   final Widget child;
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   final double buttonWidth;
   final List<Widget> buttons;
 
-  final Function(double) onScroll;
+  final Function(double)? onScroll;
 
-  final VoidCallback onSlideStarted;
+  final VoidCallback? onSlideStarted;
 
-  final VoidCallback onSlideCompleted;
+  final VoidCallback? onSlideCompleted;
 
-  final VoidCallback onSlideCanceled;
+  final VoidCallback? onSlideCanceled;
 
   LeftScroll({
     this.key,
-    @required this.child,
-    @required this.buttons,
+    required this.child,
+    required this.buttons,
     this.closeTag,
     this.onSlideStarted,
     this.onSlideCompleted,
@@ -54,16 +54,16 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
     _translateX = translateX;
   }
 
-  double maxDragDistance;
+  late double maxDragDistance;
   final Map<Type, GestureRecognizerFactory> gestures =
       <Type, GestureRecognizerFactory>{};
 
-  AnimationController animationController;
+  late AnimationController animationController;
 
-  Map<LeftScrollCloseTag, Map<Key, LeftScrollStatus>> get globalMap =>
-      LeftScrollGlobalListener.instance.map;
+  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatus>> get globalMap =>
+      LeftScrollGlobalListener.instance!.map;
 
-  LeftScrollStatus get _ct => globalMap[widget.closeTag][widget.key];
+  LeftScrollStatus? get _ct => globalMap[widget.closeTag]![widget.key];
 
   setCloseListener() {
     if (widget.closeTag == null) return;
@@ -71,12 +71,12 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
       globalMap[widget.closeTag] = {};
     }
     var _controller = LeftScrollStatus();
-    globalMap[widget.closeTag][widget.key] = _controller;
-    globalMap[widget.closeTag][widget.key].addListener(handleChange);
+    globalMap[widget.closeTag]![widget.key] = _controller;
+    globalMap[widget.closeTag]![widget.key]!.addListener(handleChange);
   }
 
   handleChange() {
-    if (globalMap[widget.closeTag][widget.key]?.value == true) {
+    if (globalMap[widget.closeTag]![widget.key]?.value == true) {
       open();
     } else {
       close();
@@ -172,7 +172,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
   }
 
   void onHorizontalDragDown(DragDownDetails details) {
-    if (widget.onSlideStarted != null) widget.onSlideStarted.call();
+    if (widget.onSlideStarted != null) widget.onSlideStarted!.call();
   }
 
   void onHorizontalDragUpdate(DragUpdateDetails details) {
@@ -201,14 +201,14 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
     print('open');
     if (translateX != -maxDragDistance) {
       animationController.animateTo(-maxDragDistance).then((_) {
-        if (widget.onSlideCompleted != null) widget.onSlideCompleted.call();
+        if (widget.onSlideCompleted != null) widget.onSlideCompleted!.call();
       });
     }
     if (widget.closeTag == null) return;
-    if (_ct.value == false) {
-      LeftScrollGlobalListener.instance
+    if (_ct!.value == false) {
+      LeftScrollGlobalListener.instance!
           .needCloseOtherRowOfTag(widget.closeTag, widget.key);
-      _ct.value = true;
+      _ct!.value = true;
     }
   }
 
@@ -216,12 +216,12 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
   void close() {
     if (translateX != 0) {
       animationController.animateTo(0).then((_) {
-        if (widget.onSlideCanceled != null) widget.onSlideCanceled.call();
+        if (widget.onSlideCanceled != null) widget.onSlideCanceled!.call();
       });
     }
     if (widget.closeTag == null) return;
-    if (_ct.value == true) {
-      _ct.value = false;
+    if (_ct!.value == true) {
+      _ct!.value = false;
     }
   }
 
@@ -233,12 +233,12 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 }
 
 class LeftScrollItem extends StatelessWidget {
-  final Function onTap;
-  final String text;
-  final Color textColor;
-  final Color color;
+  final Function? onTap;
+  final String? text;
+  final Color? textColor;
+  final Color? color;
   const LeftScrollItem({
-    Key key,
+    Key? key,
     this.onTap,
     this.text,
     this.color,
@@ -248,13 +248,13 @@ class LeftScrollItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         alignment: Alignment.center,
         // width: 80,
         color: color,
         child: Text(
-          text,
+          text!,
           style: TextStyle(
             color: textColor ?? Colors.white,
           ),

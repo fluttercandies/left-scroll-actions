@@ -21,25 +21,25 @@ class BounceStyle {
 }
 
 class CupertinoLeftScroll extends StatefulWidget {
-  final Key key;
+  final Key? key;
   final Widget child;
-  final LeftScrollCloseTag closeTag;
+  final LeftScrollCloseTag? closeTag;
   final bool closeOnPop;
-  final bool opacityChange;
-  final VoidCallback onTap;
+  final bool? opacityChange;
+  final VoidCallback? onTap;
   final double buttonWidth;
   final List<Widget> buttons;
 
   final bool bounce;
-  final BounceStyle bounceStyle;
+  final BounceStyle? bounceStyle;
 
   BounceStyle get _bounceStyle =>
       bounceStyle ?? (bounce ? BounceStyle() : BounceStyle.disable());
 
   CupertinoLeftScroll({
     this.key,
-    @required this.child,
-    @required this.buttons,
+    required this.child,
+    required this.buttons,
     this.closeTag,
     this.onTap,
     this.buttonWidth: 80.0,
@@ -86,12 +86,12 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   final Map<Type, GestureRecognizerFactory> gestures =
       <Type, GestureRecognizerFactory>{};
 
-  AnimationController animationController;
+  late AnimationController animationController;
 
-  Map<LeftScrollCloseTag, Map<Key, LeftScrollStatus>> get globalMap =>
-      LeftScrollGlobalListener.instance.map;
+  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatus>> get globalMap =>
+      LeftScrollGlobalListener.instance!.map;
 
-  LeftScrollStatus get _ct => globalMap[widget.closeTag][widget.key];
+  LeftScrollStatus? get _ct => globalMap[widget.closeTag]![widget.key];
 
   setCloseListener() {
     if (widget.closeTag == null) return;
@@ -99,12 +99,12 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       globalMap[widget.closeTag] = {};
     }
     var _controller = LeftScrollStatus();
-    globalMap[widget.closeTag][widget.key] = _controller;
-    globalMap[widget.closeTag][widget.key].addListener(handleChange);
+    globalMap[widget.closeTag]![widget.key] = _controller;
+    globalMap[widget.closeTag]![widget.key]!.addListener(handleChange);
   }
 
   handleChange() {
-    if (globalMap[widget.closeTag][widget.key]?.value == true) {
+    if (globalMap[widget.closeTag]![widget.key]?.value == true) {
       open();
     } else {
       close();
@@ -171,7 +171,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
                   buttonWidth: widget.buttonWidth,
                   bounceDistance: widget._bounceStyle.maxDistance,
                   progress: progress,
-                  children: widget.buttons ?? [],
+                  children: widget.buttons,
                 ),
               ),
             ],
@@ -208,8 +208,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   void onHorizontalDragStart(DragStartDetails details) {
     if (widget.closeTag == null) return;
-    if (_ct.value == false) {
-      LeftScrollGlobalListener.instance
+    if (_ct!.value == false) {
+      LeftScrollGlobalListener.instance!
           .needCloseOtherRowOfTag(widget.closeTag, widget.key);
     }
   }
@@ -259,7 +259,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       duration: widget._bounceStyle.duration,
     );
     if (widget.closeTag == null) return;
-    _ct.value = true;
+    _ct!.value = true;
   }
 
   // 关闭
@@ -268,8 +268,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       animationController.animateTo(0);
     }
     if (widget.closeTag == null) return;
-    if (_ct.value == true) {
-      _ct.value = false;
+    if (_ct!.value == true) {
+      _ct!.value = false;
     }
   }
 
@@ -281,18 +281,18 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 }
 
 class _WxStyleButtonGroup extends StatelessWidget {
-  final List<Widget> children;
-  final bool opaChange;
+  final List<Widget>? children;
+  final bool? opaChange;
   final double buttonWidth;
 
   /// ��许拉伸的最大范围
-  final double bounceDistance;
+  final double? bounceDistance;
 
   /// 拉伸进度
   final double progress;
 
   const _WxStyleButtonGroup({
-    Key key,
+    Key? key,
     this.children,
     this.buttonWidth: 80,
     this.progress: 0,
@@ -307,15 +307,15 @@ class _WxStyleButtonGroup extends StatelessWidget {
   double get offset => buttonWidth * progress;
 
   double get eachWidthOffset =>
-      (buttonWidth * children.length + bounceDistance) /
-      children.length *
+      (buttonWidth * children!.length + bounceDistance!) /
+      children!.length *
       progress;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> l = [];
 
-    for (var i = 0; i < children.length; i++) {
+    for (var i = 0; i < children!.length; i++) {
       Widget btn = Container(
         width: buttonWidth * progress,
         child: OverflowBox(
@@ -324,7 +324,7 @@ class _WxStyleButtonGroup extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Container(
             width: isOverBounce ? buttonWidth * progress : buttonWidth,
-            child: children[i],
+            child: children![i],
           ),
         ),
       );
@@ -346,8 +346,8 @@ class _WxStyleButtonGroup extends StatelessWidget {
     }
     return OverflowBox(
       alignment: Alignment.centerLeft,
-      minWidth: buttonWidth * children.length + bounceDistance,
-      maxWidth: buttonWidth * children.length + bounceDistance,
+      minWidth: buttonWidth * children!.length + bounceDistance!,
+      maxWidth: buttonWidth * children!.length + bounceDistance!,
       child: Stack(
         alignment: Alignment.centerRight,
         children: l.reversed.toList(),

@@ -1,4 +1,8 @@
 
+## 2.0.0-nullsafety.0 
+
+1. Add nullsafety support.
+2. Remove LeftScrollList(deprecated).
 ## 1.5.3 Improve bounce style.
 
 1. Change default k to 0.8.

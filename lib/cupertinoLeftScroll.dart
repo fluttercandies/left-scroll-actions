@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/gestures.dart';
@@ -43,11 +44,12 @@ class CupertinoLeftScroll extends StatefulWidget {
     this.closeTag,
     this.onTap,
     this.buttonWidth: 80.0,
-    this.closeOnPop: true,
+    bool? closeOnPop,
     this.opacityChange,
     this.bounce: false,
     this.bounceStyle,
-  }) : super(key: key);
+  })  : this.closeOnPop = closeOnPop ?? !Platform.isIOS,
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {

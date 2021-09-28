@@ -1,4 +1,8 @@
 
+## 2.0.1
+
+1. Now closeOnPop value is default set to false when running on iOS platform to retain the left-scroll-back gesture.
+
 ## 2.0.0-nullsafety.0 
 
 1. Add nullsafety support.

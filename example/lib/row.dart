@@ -86,7 +86,7 @@ class _ExampleRowState extends State<ExampleRow> {
       child: body,
       buttonWidth: 70,
       buttons: actions,
-      onTap: widget.onTap,
+      onTap: () => widget.onTap.call(),
       onScroll: (a) {
         opa = a;
         setState(() {});

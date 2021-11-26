@@ -6,7 +6,7 @@ import 'package:left_scroll_actions/left_scroll_actions.dart';
 
 class ClosableListPage extends StatefulWidget {
   const ClosableListPage({
-    Key? key,
+    Key key,
   }) : super(key: key);
   @override
   _ClosableListPageState createState() => _ClosableListPageState();

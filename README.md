@@ -85,14 +85,20 @@ Custom define you slide animation by implements `onScroll` function.
 LeftScrollGlobalListener.instance.targetStatus(tag,key).value = false;
 ```
 
-### 左滑列表（1.2.0新增）（已过期）
+### 移除数据（带有动画）
+
 ```dart
-/// 已过期
-LeftScrollList.builder(
-  /// Deprecated! Do not use this widget anymore.
-  /// Instead, you can add [LeftScrollCloseTag] property to [LeftScroll] or [CupertinoLeftScroll] widget.
+GlobalLeftScroll.instance.removeRowWithAnimation(
+  tag,
+  Key(id),
+  onRemove: () {
+    setState(() {
+      list.remove(id);
+    });
+  },
 );
 ```
+
 
 See:
 

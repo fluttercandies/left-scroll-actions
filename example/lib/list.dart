@@ -16,6 +16,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
+    const tag = const LeftScrollCloseTag('list');
     return Scaffold(
       appBar: AppBar(
         title: Text('Use In List'),
@@ -36,7 +37,7 @@ class _ListPageState extends State<ListPage> {
                 closeOnPop: false,
                 key: Key(id), // Note:Important,Must add key;
                 buttonWidth: 80,
-                closeTag: LeftScrollCloseTag('list'),
+                closeTag: tag,
                 child: Container(
                   height: 60,
                   padding: EdgeInsets.only(left: 20),
@@ -51,8 +52,15 @@ class _ListPageState extends State<ListPage> {
                     onTap: () {
                       print('delete');
                       if (list.contains(id)) {
-                        list.remove(id);
-                        setState(() {});
+                        GlobalLeftScroll.instance.removeRowWithAnimation(
+                          tag,
+                          Key(id),
+                          onRemove: () {
+                            setState(() {
+                              list.remove(id);
+                            });
+                          },
+                        );
                       }
                     },
                   ),

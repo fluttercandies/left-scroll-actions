@@ -1,22 +1,24 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class LeftScrollGlobalListener {
+@Deprecated("Use [GlobalLeftScroll] Instead")
+class LeftScrollGlobalListener {}
+
+class GlobalLeftScroll {
   // 工厂模式
-  factory LeftScrollGlobalListener() => _getInstance()!;
-  static LeftScrollGlobalListener? get instance => _getInstance();
-  static LeftScrollGlobalListener? _instance;
-  LeftScrollGlobalListener._internal() {
+  factory GlobalLeftScroll() => _getInstance()!;
+  static GlobalLeftScroll? get instance => _getInstance();
+  static GlobalLeftScroll? _instance;
+  GlobalLeftScroll._internal() {
     // 初始化
   }
-  static LeftScrollGlobalListener? _getInstance() {
+  static GlobalLeftScroll? _getInstance() {
     if (_instance == null) {
-      _instance = new LeftScrollGlobalListener._internal();
+      _instance = new GlobalLeftScroll._internal();
     }
     return _instance;
   }
 
-  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatus>> map = {};
+  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> map = {};
 
   bool removeListener(LeftScrollCloseTag tag) {
     if (map[tag] != null) {
@@ -26,31 +28,43 @@ class LeftScrollGlobalListener {
     return false;
   }
 
-  LeftScrollStatus? targetStatus(LeftScrollCloseTag tag, Key key) =>
-      map[tag]![key];
+  LeftScrollStatusCtrl? targetStatus(
+    LeftScrollCloseTag? tag,
+    Key? key,
+  ) =>
+      map[tag]?[key];
 
   // 需要关闭同Tag的Row
   needCloseOtherRowOfTag(LeftScrollCloseTag? tag, Key? key) {
-    if (tag == null) {
-      return;
-    }
-    if (map[tag] == null) {
-      return;
-    }
+    if (tag == null) return;
+    if (map[tag] == null) return;
     for (var otherKey in map[tag]!.keys) {
-      if (otherKey == key) {
-        continue;
-      }
-      if (map[tag]![otherKey]!.value == true) {
-        map[tag]![otherKey]!.value = false;
+      if (otherKey == key) continue;
+      if (map[tag]![otherKey]!.value == LeftScrollStatus.open) {
+        map[tag]![otherKey]!.value = LeftScrollStatus.close;
       }
     }
+  }
+
+  /// 删除目标行
+  removeRowWithAnimation(
+    LeftScrollCloseTag? tag,
+    Key? key, {
+    Function? onRemove,
+  }) async {
+    if (tag == null) return;
+    if (map[tag] == null) return;
+    // targetStatus(tag, key)?.value = LeftScrollStatus.close;
+    targetStatus(tag, key)?.value = LeftScrollStatus.remove;
+    await Future.delayed(Duration(milliseconds: 300));
+    onRemove?.call();
+    targetStatus(tag, key)?.value = LeftScrollStatus.close;
   }
 }
 
 class LeftScrollCloseTag {
   final String tag;
-  LeftScrollCloseTag(this.tag);
+  const LeftScrollCloseTag(this.tag);
 
   @override
   int get hashCode => tag.hashCode;
@@ -65,11 +79,16 @@ class LeftScrollCloseTag {
   }
 }
 
-/// 左滑的状态
-class LeftScrollStatus extends ValueNotifier<bool> {
-  LeftScrollStatus() : super(false);
-  bool get isClose => value;
-  bool get isOpen => !value;
+enum LeftScrollStatus {
+  close,
+  open,
+  remove,
 }
 
-
+/// 左滑的状态控制器
+class LeftScrollStatusCtrl extends ValueNotifier<LeftScrollStatus> {
+  LeftScrollStatusCtrl() : super(LeftScrollStatus.close);
+  bool get isClose => value == LeftScrollStatus.close;
+  bool get isOpen => value == LeftScrollStatus.open;
+  bool get isRemove => value == LeftScrollStatus.remove;
+}

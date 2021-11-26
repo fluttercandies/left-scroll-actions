@@ -60,27 +60,28 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 
   late AnimationController animationController;
 
-  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatus>> get globalMap =>
-      LeftScrollGlobalListener.instance!.map;
+  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> get globalMap =>
+      GlobalLeftScroll.instance!.map;
 
-  LeftScrollStatus? get _ct => globalMap[widget.closeTag]![widget.key];
+  LeftScrollStatusCtrl? get _ct => globalMap[widget.closeTag]![widget.key];
 
   setCloseListener() {
     if (widget.closeTag == null) return;
     if (globalMap[widget.closeTag] == null) {
       globalMap[widget.closeTag] = {};
     }
-    var _controller = LeftScrollStatus();
+    var _controller = LeftScrollStatusCtrl();
     globalMap[widget.closeTag]![widget.key] = _controller;
     globalMap[widget.closeTag]![widget.key]!.addListener(handleChange);
   }
 
   handleChange() {
-    if (globalMap[widget.closeTag]![widget.key]?.value == true) {
+    var status = globalMap[widget.closeTag]![widget.key]?.value;
+    if (status == LeftScrollStatus.open) {
       open();
-    } else {
+    } else if (status == LeftScrollStatus.close) {
       close();
-    }
+    } else if (status == LeftScrollStatus.remove) {}
   }
 
   @override
@@ -198,17 +199,17 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
 
   // 打开
   void open() {
-    print('open');
+    // print('open');
     if (translateX != -maxDragDistance) {
       animationController.animateTo(-maxDragDistance).then((_) {
         if (widget.onSlideCompleted != null) widget.onSlideCompleted!.call();
       });
     }
     if (widget.closeTag == null) return;
-    if (_ct!.value == false) {
-      LeftScrollGlobalListener.instance!
+    if (_ct!.value == LeftScrollStatus.close) {
+      GlobalLeftScroll.instance!
           .needCloseOtherRowOfTag(widget.closeTag, widget.key);
-      _ct!.value = true;
+      _ct!.value = LeftScrollStatus.open;
     }
   }
 
@@ -220,9 +221,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
       });
     }
     if (widget.closeTag == null) return;
-    if (_ct!.value == true) {
-      _ct!.value = false;
-    }
+    _ct!.value = LeftScrollStatus.close;
   }
 
   @override

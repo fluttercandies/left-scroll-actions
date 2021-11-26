@@ -90,28 +90,45 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   late AnimationController animationController;
 
-  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatus>> get globalMap =>
-      LeftScrollGlobalListener.instance!.map;
+  Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> get globalMap =>
+      GlobalLeftScroll.instance!.map;
 
-  LeftScrollStatus? get _ct => globalMap[widget.closeTag]![widget.key];
+  LeftScrollStatusCtrl? get _ct => globalMap[widget.closeTag]?[widget.key];
 
   setCloseListener() {
     if (widget.closeTag == null) return;
     if (globalMap[widget.closeTag] == null) {
       globalMap[widget.closeTag] = {};
     }
-    var _controller = LeftScrollStatus();
+    var _controller = LeftScrollStatusCtrl();
     globalMap[widget.closeTag]![widget.key] = _controller;
     globalMap[widget.closeTag]![widget.key]!.addListener(handleChange);
   }
 
   handleChange() {
-    if (globalMap[widget.closeTag]![widget.key]?.value == true) {
+    var status = globalMap[widget.closeTag]![widget.key]?.value;
+    if (status == LeftScrollStatus.open) {
+      removPrepared = false;
+      removing = false;
       open();
-    } else {
+    } else if (status == LeftScrollStatus.close) {
+      removPrepared = false;
+      removing = false;
       close();
+    } else if (status == LeftScrollStatus.remove) {
+      setState(() {
+        removPrepared = true;
+      });
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        setState(() {
+          removing = true;
+        });
+      });
     }
   }
+
+  bool removing = false;
+  bool removPrepared = false;
 
   @override
   void initState() {
@@ -137,12 +154,12 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
     );
 
     animationController = AnimationController(
-        value: 0,
-        lowerBound: -maxDragDistance - widget._bounceStyle.maxDistance,
-        upperBound: 0,
-        vsync: this,
-        duration: Duration(milliseconds: 300))
-      ..addListener(() {
+      value: 0,
+      lowerBound: -maxDragDistance - widget._bounceStyle.maxDistance,
+      upperBound: 0,
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    )..addListener(() {
         translateX = animationController.value;
         setState(() {});
       });
@@ -195,6 +212,19 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
         )
       ],
     );
+
+    if (removPrepared) {
+      body = ClipRect(
+        clipBehavior: Clip.hardEdge,
+        child: AnimatedAlign(
+          alignment: Alignment.bottomCenter,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.fastOutSlowIn,
+          heightFactor: removing ? 0 : 1,
+          child: body,
+        ),
+      );
+    }
     return widget.closeOnPop
         ? WillPopScope(
             child: body,
@@ -210,9 +240,11 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   void onHorizontalDragStart(DragStartDetails details) {
     if (widget.closeTag == null) return;
-    if (_ct!.value == false) {
-      LeftScrollGlobalListener.instance!
-          .needCloseOtherRowOfTag(widget.closeTag, widget.key);
+    if (_ct!.value == LeftScrollStatus.close) {
+      GlobalLeftScroll.instance!.needCloseOtherRowOfTag(
+        widget.closeTag,
+        widget.key,
+      );
     }
   }
 
@@ -240,7 +272,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   // 打开
   void open([double v = 0]) async {
-    print('open');
+    // print('open');
     if (v < 0) {
       // //TODO: 弹簧动画
       // var phy = BouncingScrollSimulation(
@@ -261,7 +293,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       duration: widget._bounceStyle.duration,
     );
     if (widget.closeTag == null) return;
-    _ct!.value = true;
+    _ct!.value = LeftScrollStatus.open;
   }
 
   // 关闭
@@ -270,8 +302,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       animationController.animateTo(0);
     }
     if (widget.closeTag == null) return;
-    if (_ct!.value == true) {
-      _ct!.value = false;
+    if (_ct!.value == LeftScrollStatus.open) {
+      _ct!.value = LeftScrollStatus.close;
     }
   }
 

@@ -1,4 +1,9 @@
 
+## 2.1.0
+
+1. Rename LeftScrollGlobalListener to GlobalLeftScroll.
+2. Now can use GlobalLeftScroll.instance.removeRowWithAnimation to remove row with aniamtion.
+
 ## 2.0.1
 
 1. Now closeOnPop value is default set to false when running on iOS platform to retain the left-scroll-back gesture.

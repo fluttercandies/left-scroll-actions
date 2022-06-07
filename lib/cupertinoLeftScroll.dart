@@ -119,7 +119,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       setState(() {
         removPrepared = true;
       });
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      (WidgetsBinding.instance as WidgetsBinding)
+          .addPostFrameCallback((timeStamp) {
         setState(() {
           removing = true;
         });

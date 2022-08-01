@@ -142,7 +142,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
         instance
           ..onStart = onHorizontalDragStart
           ..onUpdate = onHorizontalDragUpdate
-          ..onEnd = onHorizontalDragEnd;
+          ..onEnd = onHorizontalDragEnd
+          ..gestureSettings = MediaQuery.maybeOf(context)?.gestureSettings;;
       },
     );
 

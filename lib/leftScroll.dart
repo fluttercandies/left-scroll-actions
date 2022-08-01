@@ -104,7 +104,8 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
         instance
           ..onDown = onHorizontalDragDown
           ..onUpdate = onHorizontalDragUpdate
-          ..onEnd = onHorizontalDragEnd;
+          ..onEnd = onHorizontalDragEnd
+          ..gestureSettings = MediaQuery.maybeOf(context)?.gestureSettings;
       },
     );
 

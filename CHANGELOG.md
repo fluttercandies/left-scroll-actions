@@ -1,4 +1,8 @@
 
+## 2.1.2
+
+1. Fix some gesture issue in Android.
+
 ## 2.1.1
 
 1. Fix WidgetsBinding.instance warning in Flutter 3.0 .

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/global/actionListener.dart';
 
 // 原始的组件
+@Deprecated('Use CupertinoLeftScroll Instead')
 class LeftScroll extends StatefulWidget {
   final Key? key;
 

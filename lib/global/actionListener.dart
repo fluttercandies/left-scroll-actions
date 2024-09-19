@@ -5,17 +5,17 @@ class LeftScrollGlobalListener {}
 
 class GlobalLeftScroll {
   // 工厂模式
-  factory GlobalLeftScroll() => _getInstance()!;
-  static GlobalLeftScroll? get instance => _getInstance();
+  factory GlobalLeftScroll() => _getInstance();
+  static GlobalLeftScroll get instance => _getInstance();
   static GlobalLeftScroll? _instance;
   GlobalLeftScroll._internal() {
     // 初始化
   }
-  static GlobalLeftScroll? _getInstance() {
+  static GlobalLeftScroll _getInstance() {
     if (_instance == null) {
-      _instance = new GlobalLeftScroll._internal();
+      _instance = GlobalLeftScroll._internal();
     }
-    return _instance;
+    return _instance!;
   }
 
   Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> map = {};
@@ -47,7 +47,7 @@ class GlobalLeftScroll {
   }
 
   /// 删除目标行
-  removeRowWithAnimation(
+  Future<void> removeRowWithAnimation(
     LeftScrollCloseTag? tag,
     Key? key, {
     Function? onRemove,
@@ -58,7 +58,7 @@ class GlobalLeftScroll {
     targetStatus(tag, key)?.value = LeftScrollStatus.remove;
     await Future.delayed(Duration(milliseconds: 300));
     onRemove?.call();
-    targetStatus(tag, key)?.value = LeftScrollStatus.close;
+    targetStatus(tag, key)?.value = LeftScrollStatus.removed;
   }
 }
 
@@ -83,6 +83,7 @@ enum LeftScrollStatus {
   close,
   open,
   remove,
+  removed,
 }
 
 /// 左滑的状态控制器

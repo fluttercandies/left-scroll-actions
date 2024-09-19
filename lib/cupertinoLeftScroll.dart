@@ -12,9 +12,9 @@ class BounceStyle {
   final Duration duration;
 
   BounceStyle({
-    this.duration: const Duration(milliseconds: 200),
-    this.maxDistance: 120,
-    this.k: 0.8,
+    this.duration = const Duration(milliseconds: 200),
+    this.maxDistance = 120,
+    this.k = 0.8,
   });
 
   /// k为1意味着阻止任何回弹
@@ -43,10 +43,10 @@ class CupertinoLeftScroll extends StatefulWidget {
     required this.buttons,
     this.closeTag,
     this.onTap,
-    this.buttonWidth: 80.0,
+    this.buttonWidth = 80.0,
     bool? closeOnPop,
     this.opacityChange,
-    this.bounce: false,
+    this.bounce = false,
     this.bounceStyle,
   })  : this.closeOnPop = closeOnPop ?? !Platform.isIOS,
         super(key: key);
@@ -91,7 +91,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   late AnimationController animationController;
 
   Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> get globalMap =>
-      GlobalLeftScroll.instance!.map;
+      GlobalLeftScroll.instance.map;
 
   LeftScrollStatusCtrl? get _ct => globalMap[widget.closeTag]?[widget.key];
 
@@ -108,19 +108,18 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   handleChange() {
     var status = globalMap[widget.closeTag]![widget.key]?.value;
     if (status == LeftScrollStatus.open) {
-      removPrepared = false;
+      removePrepared = false;
       removing = false;
       open();
     } else if (status == LeftScrollStatus.close) {
-      removPrepared = false;
+      removePrepared = false;
       removing = false;
       close();
     } else if (status == LeftScrollStatus.remove) {
       setState(() {
-        removPrepared = true;
+        removePrepared = true;
       });
-      (WidgetsBinding.instance as WidgetsBinding)
-          .addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         setState(() {
           removing = true;
         });
@@ -128,8 +127,12 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
     }
   }
 
+  bool get removed =>
+      globalMap[widget.closeTag]![widget.key]?.value ==
+      LeftScrollStatus.removed;
+
   bool removing = false;
-  bool removPrepared = false;
+  bool removePrepared = false;
 
   @override
   void initState() {
@@ -143,7 +146,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
           ..onStart = onHorizontalDragStart
           ..onUpdate = onHorizontalDragUpdate
           ..onEnd = onHorizontalDragEnd
-          ..gestureSettings = MediaQuery.maybeOf(context)?.gestureSettings;;
+          ..gestureSettings = MediaQuery.maybeOf(context)?.gestureSettings;
       },
     );
 
@@ -177,6 +180,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   @override
   Widget build(BuildContext context) {
+    if (removed) return Container();
     Widget body = Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
@@ -215,9 +219,8 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       ],
     );
 
-    if (removPrepared) {
+    if (removePrepared) {
       body = ClipRect(
-        clipBehavior: Clip.hardEdge,
         child: AnimatedAlign(
           alignment: Alignment.bottomCenter,
           duration: Duration(milliseconds: 300),
@@ -243,7 +246,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   void onHorizontalDragStart(DragStartDetails details) {
     if (widget.closeTag == null) return;
     if (_ct!.value == LeftScrollStatus.close) {
-      GlobalLeftScroll.instance!.needCloseOtherRowOfTag(
+      GlobalLeftScroll.instance.needCloseOtherRowOfTag(
         widget.closeTag,
         widget.key,
       );
@@ -274,22 +277,6 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
 
   // 打开
   void open([double v = 0]) async {
-    // print('open');
-    if (v < 0) {
-      // //TODO: 弹簧动画
-      // var phy = BouncingScrollSimulation(
-      //   velocity: v,
-      //   leadingExtent: 0,
-      //   position: translateX,
-      //   spring: SpringDescription.withDampingRatio(
-      //     mass: 1,
-      //     stiffness: 1,
-      //   ),
-      //   trailingExtent: null,
-      // );
-      // phy.dx(time)
-      // v = v.clamp(-300.0, 0.0);
-    }
     animationController.animateTo(
       -maxDragDistance,
       duration: widget._bounceStyle.duration,

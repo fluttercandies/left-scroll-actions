@@ -1,4 +1,8 @@
 
+## 2.2.0
+
+1. Fix close with animation api.
+
 ## 2.1.2
 
 1. Fix some gesture issue in Android.

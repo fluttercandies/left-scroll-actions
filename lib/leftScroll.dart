@@ -62,7 +62,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
   late AnimationController animationController;
 
   Map<LeftScrollCloseTag?, Map<Key?, LeftScrollStatusCtrl>> get globalMap =>
-      GlobalLeftScroll.instance!.map;
+      GlobalLeftScroll.instance.map;
 
   LeftScrollStatusCtrl? get _ct => globalMap[widget.closeTag]![widget.key];
 
@@ -209,8 +209,10 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
     }
     if (widget.closeTag == null) return;
     if (_ct!.value == LeftScrollStatus.close) {
-      GlobalLeftScroll.instance!
-          .needCloseOtherRowOfTag(widget.closeTag, widget.key);
+      GlobalLeftScroll.instance.needCloseOtherRowOfTag(
+        widget.closeTag,
+        widget.key,
+      );
       _ct!.value = LeftScrollStatus.open;
     }
   }

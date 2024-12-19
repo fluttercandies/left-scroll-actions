@@ -1,4 +1,10 @@
 
+## 2.3.0
+
+1. Fix error whitch AnimationController use after dispose.
+2. Add LeftScrollController API for edit row status.
+3. Add LSTag class for shorter name of LeftScrollCloseTag.
+
 ## 2.2.0
 
 1. Fix close with animation api.

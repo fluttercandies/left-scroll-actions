@@ -82,7 +82,7 @@ class LeftScrollState extends State<LeftScroll> with TickerProviderStateMixin {
       open();
     } else if (status == LeftScrollStatus.close) {
       close();
-    } else if (status == LeftScrollStatus.remove) {}
+    } else if (status == LeftScrollStatus.removing) {}
   }
 
   @override

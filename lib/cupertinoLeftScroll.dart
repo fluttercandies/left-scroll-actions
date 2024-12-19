@@ -106,6 +106,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   }
 
   handleChange() {
+    if (!mounted) return;
     var status = globalMap[widget.closeTag]![widget.key]?.value;
     if (status == LeftScrollStatus.open) {
       removePrepared = false;
@@ -115,7 +116,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
       removePrepared = false;
       removing = false;
       close();
-    } else if (status == LeftScrollStatus.remove) {
+    } else if (status == LeftScrollStatus.removing) {
       setState(() {
         removePrepared = true;
       });
@@ -128,7 +129,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   }
 
   bool get removed =>
-      globalMap[widget.closeTag]![widget.key]?.value ==
+      globalMap[widget.closeTag]?[widget.key]?.value ==
       LeftScrollStatus.removed;
 
   bool removing = false;
@@ -288,7 +289,7 @@ class CupertinoLeftScrollState extends State<CupertinoLeftScroll>
   // 关闭
   void close() {
     if (translateX != 0) {
-      animationController.animateTo(0);
+      if (mounted) animationController.animateTo(0);
     }
     if (widget.closeTag == null) return;
     if (_ct!.value == LeftScrollStatus.open) {

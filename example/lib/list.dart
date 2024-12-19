@@ -52,15 +52,12 @@ class _ListPageState extends State<ListPage> {
                     onTap: () {
                       print('delete');
                       if (list.contains(id)) {
-                        GlobalLeftScroll.instance.removeRowWithAnimation(
-                          tag,
-                          Key(id),
-                          onRemove: () {
-                            setState(() {
-                              list.remove(id);
-                            });
-                          },
-                        );
+                        tag.of(Key(id)).remove(() async {
+                          setState(() {
+                            list.remove(id);
+                          });
+                          return true;
+                        });
                       }
                     },
                   ),

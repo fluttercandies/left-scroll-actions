@@ -1,15 +1,15 @@
-import 'package:example/tapped.dart';
 import 'package:flutter/material.dart';
 import 'package:left_scroll_actions/left_scroll_actions.dart';
+import 'package:tapped/tapped.dart';
 
 // 如果Row的背景必须是透明颜色的，就要做处理了：
 class ExampleRow extends StatefulWidget {
-  final Function onTap;
-  final Function onEdit;
-  final Function onDelete;
+  final Function? onTap;
+  final Function? onEdit;
+  final Function? onDelete;
 
   const ExampleRow({
-    Key key,
+    Key? key,
     this.onTap,
     this.onDelete,
     this.onEdit,
@@ -86,7 +86,7 @@ class _ExampleRowState extends State<ExampleRow> {
       child: body,
       buttonWidth: 70,
       buttons: actions,
-      onTap: () => widget.onTap.call(),
+      onTap: () => widget.onTap?.call(),
       onScroll: (a) {
         opa = a;
         setState(() {});
@@ -111,8 +111,12 @@ class _ExampleRowState extends State<ExampleRow> {
 
 class OVText {
   // 偏大文字
-  static Widget main(title,
-      {double fontsize, Color color, TextAlign align: TextAlign.left}) {
+  static Widget main(
+    title, {
+    double? fontsize,
+    Color? color,
+    TextAlign? align = TextAlign.left,
+  }) {
     return Text(
       title,
       maxLines: 1,
@@ -128,8 +132,12 @@ class OVText {
   }
 
   //  正文
-  static Widget normal(title,
-      {double fontsize: 14, Color color, TextAlign align: TextAlign.left}) {
+  static Widget normal(
+    title, {
+    double? fontsize = 14,
+    Color? color,
+    TextAlign? align = TextAlign.left,
+  }) {
     return Text(
       title,
       textAlign: align,
@@ -142,8 +150,11 @@ class OVText {
   }
 
   // 小提示文字
-  static Widget small(title,
-      {double fontsize: 12, TextAlign align: TextAlign.left}) {
+  static Widget small(
+    title, {
+    double? fontsize = 12,
+    TextAlign? align = TextAlign.left,
+  }) {
     return Opacity(
       opacity: 0.8,
       child: Text(
